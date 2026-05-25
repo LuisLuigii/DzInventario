@@ -10,10 +10,8 @@ import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 
 export default function LoginPage() {
-  const [mode, setMode] = useState<'login' | 'register'>('login')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
@@ -21,85 +19,38 @@ export default function LoginPage() {
     e.preventDefault()
     setLoading(true)
     const supabase = createClient()
-
-    if (mode === 'login') {
-      const { error } = await supabase.auth.signInWithPassword({ email, password })
-      if (error) {
-        toast.error('Credenciales incorrectas')
-        setLoading(false)
-        return
-      }
-      router.push('/dashboard')
-    } else {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { data: { full_name: name, role: 'seller' } },
-      })
-      if (error) {
-        toast.error('Error al registrarse: ' + error.message)
-        setLoading(false)
-        return
-      }
-      toast.success('Cuenta creada. Ya puedes iniciar sesión.')
-      setMode('login')
-      setPassword('')
-      setName('')
+    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    if (error) {
+      toast.error('Credenciales incorrectas')
+      setLoading(false)
+      return
     }
-    setLoading(false)
+    router.push('/dashboard')
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="w-full max-w-sm p-8 bg-card border border-border rounded-2xl shadow-xl">
+    <div className="min-h-screen flex items-center justify-center bg-background bg-dot-grid">
+      <div className="w-full max-w-sm p-8 bg-card border border-border/60 rounded-2xl shadow-xl">
         <div className="flex flex-col items-center mb-8">
-          <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center mb-4">
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+            style={{ background: 'linear-gradient(135deg, hsl(262 85% 62% / 0.3), hsl(280 80% 65% / 0.15))', border: '1px solid hsl(262 85% 62% / 0.3)' }}>
             <Gamepad2 className="w-6 h-6 text-primary" />
           </div>
-          <h1 className="text-xl font-bold text-foreground">DeynzoShop</h1>
+          <h1 className="text-xl font-bold gradient-text">DeynzoShop</h1>
           <p className="text-sm text-muted-foreground mt-1">La mejor tienda niggas</p>
         </div>
 
-        <div className="flex bg-muted rounded-lg p-1 mb-6">
-          <button
-            type="button"
-            onClick={() => setMode('login')}
-            className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-colors ${mode === 'login' ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground'}`}
-          >
-            Iniciar Sesión
-          </button>
-          <button
-            type="button"
-            onClick={() => setMode('register')}
-            className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-colors ${mode === 'register' ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground'}`}
-          >
-            Registrarse
-          </button>
-        </div>
-
         <form onSubmit={handleSubmit} className="space-y-4">
-          {mode === 'register' && (
-            <div className="space-y-1.5">
-              <Label className="text-xs">Nombre</Label>
-              <Input
-                type="text"
-                value={name}
-                onChange={e => setName(e.target.value)}
-                className="bg-background"
-                placeholder="Tu nombre"
-                required
-              />
-            </div>
-          )}
           <div className="space-y-1.5">
             <Label className="text-xs">Email</Label>
             <Input
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className="bg-background"
+              className="bg-background/60 border-border/60"
               placeholder="correo@ejemplo.com"
               required
+              autoComplete="email"
             />
           </div>
           <div className="space-y-1.5">
@@ -108,15 +59,14 @@ export default function LoginPage() {
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className="bg-background"
+              className="bg-background/60 border-border/60"
               placeholder="••••••••"
               required
-              minLength={6}
             />
           </div>
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button type="submit" className="w-full cursor-pointer" disabled={loading}>
             {loading && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
-            {mode === 'login' ? 'Iniciar Sesión' : 'Crear Cuenta'}
+            Iniciar Sesión
           </Button>
         </form>
       </div>
