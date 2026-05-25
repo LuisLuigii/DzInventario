@@ -1,0 +1,153 @@
+{
+  "last_scan": "2026-05-23T02:45:00Z",
+  "scan_count": 1,
+  "inventory": [
+    {
+      "name": "frontend-design",
+      "type": "skill",
+      "source": "github.com/anthropics/skills",
+      "version": "unknown",
+      "first_seen": "2026-05-23",
+      "status": "clean",
+      "findings": [],
+      "coherence": {
+        "stated_purpose": "Crear interfaces frontend de producción con alta calidad de diseño",
+        "verdict": "coherent",
+        "notes": "Solo contiene instrucciones de diseño UI. Sin comandos, sin red, sin acceso a archivos."
+      },
+      "snapshots": {
+        "SKILL.md": {
+          "hash": "sha256:first-scan-baseline",
+          "last_scanned": "2026-05-23T02:45:00Z"
+        }
+      }
+    },
+    {
+      "name": "agent-browser",
+      "type": "skill",
+      "source": "github.com/vercel-labs/agent-browser",
+      "version": "unknown",
+      "first_seen": "2026-05-23",
+      "status": "warning",
+      "findings": [
+        {
+          "severity": "low",
+          "type": "shell_access",
+          "description": "Solicita permiso Bash(agent-browser:*). Es coherente con su propósito de automatización de browser, pero otorga acceso de shell.",
+          "source": "static_analysis"
+        },
+        {
+          "severity": "info",
+          "type": "context_breach",
+          "description": "Vercel sufrió una brecha de seguridad en abril 2026 via tercero comprometido. No afecta directamente a agent-browser.",
+          "source": "external_intel",
+          "url": "https://vercel.com/kb/bulletin/vercel-april-2026-security-incident"
+        },
+        {
+          "severity": "info",
+          "type": "open_security_issue",
+          "description": "Existe issue abierto #627 sobre riesgos de seguridad en el repo.",
+          "source": "github_issues",
+          "url": "https://github.com/vercel-labs/agent-browser/issues/627"
+        }
+      ],
+      "coherence": {
+        "stated_purpose": "Automatización de browser via CLI con acceso CDP",
+        "verdict": "coherent",
+        "notes": "El acceso Bash es necesario para ejecutar el CLI. Hidden skill (no aparece en listado). Coherente con propósito."
+      },
+      "snapshots": {
+        "SKILL.md": {
+          "hash": "sha256:first-scan-baseline",
+          "last_scanned": "2026-05-23T02:45:00Z"
+        }
+      }
+    },
+    {
+      "name": "using-superpowers",
+      "type": "skill",
+      "source": "github.com/obra/superpowers",
+      "version": "unknown",
+      "first_seen": "2026-05-23",
+      "status": "warning",
+      "findings": [
+        {
+          "severity": "medium",
+          "type": "coercive_language",
+          "description": "Usa lenguaje de alta presión: 'YOU MUST', 'THIS IS NOT NEGOTIABLE', 'EXTREMELY-IMPORTANT'. Puede influir en el comportamiento del modelo más allá de lo necesario.",
+          "source": "static_analysis",
+          "line_range": "10-18"
+        },
+        {
+          "severity": "medium",
+          "type": "broad_behavior_override",
+          "description": "Instruye a Claude a invocar skills antes de CUALQUIER respuesta, incluyendo preguntas de aclaración. Puede interferir con el flujo normal de trabajo.",
+          "source": "static_analysis"
+        },
+        {
+          "severity": "low",
+          "type": "third_party_risk",
+          "description": "Socket flaggeo 1 alerta durante la instalación. Mondoo clasifica el sub-skill systematic-debugging como High Risk.",
+          "source": "external_intel",
+          "url": "https://mondoo.com/ai-agent-security/skills/github/obra/superpowers/systematic-debugging/917e5f53b16b"
+        }
+      ],
+      "coherence": {
+        "stated_purpose": "Establecer flujo de trabajo de uso de skills antes de responder",
+        "verdict": "minor_concerns",
+        "notes": "El propósito es legítimo. El lenguaje coercitivo es preocupante pero común en skills de workflow. Sin acceso a shell ni red."
+      },
+      "snapshots": {
+        "SKILL.md": {
+          "hash": "sha256:first-scan-baseline",
+          "last_scanned": "2026-05-23T02:45:00Z"
+        }
+      }
+    },
+    {
+      "name": "mcp-sentinel",
+      "type": "skill",
+      "source": "local:C:/Users/luisz/AppData/Local/Temp/claude-mcp-sentinel-2.0.zip",
+      "version": "2.0",
+      "first_seen": "2026-05-23",
+      "status": "clean",
+      "findings": [
+        {
+          "severity": "info",
+          "type": "ecosystem_warning",
+          "description": "Snyk advierte que skill scanners en general pueden ser vectores de ataque ('skill scanner as malware'). Esta skill fue revisada manualmente — sin patrones maliciosos detectados.",
+          "source": "external_intel",
+          "url": "https://snyk.io/blog/skill-scanner-false-security/"
+        }
+      ],
+      "coherence": {
+        "stated_purpose": "Monitor de seguridad para skills y servidores MCP instalados",
+        "verdict": "coherent",
+        "notes": "Todas las acciones (WebSearch, Read/Write, Bash para descubrimiento de archivos, Glob/Grep) son coherentes con escaneo de seguridad. Fuente local revisada manualmente."
+      },
+      "snapshots": {
+        "SKILL.md": {
+          "hash": "sha256:first-scan-baseline",
+          "last_scanned": "2026-05-23T02:45:00Z"
+        }
+      }
+    }
+  ],
+  "known_threats": [],
+  "community_alerts": [
+    {
+      "source": "snyk",
+      "url": "https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub/",
+      "summary": "ToxicSkills: 36% de las skills en ClawHub tienen fallos de seguridad, 1467 payloads maliciosos detectados. 13% contienen al menos un problema crítico.",
+      "date": "2026-02-05",
+      "relevance": "general"
+    },
+    {
+      "source": "snyk",
+      "url": "https://snyk.io/blog/skill-scanner-false-security/",
+      "summary": "Los skill scanners implementados como skills pueden ser vectores de ataque. El malware puede viajar en archivos de test no escaneados.",
+      "date": "2026-03-01",
+      "relevance": "related"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "skills": {
+    "agent-browser": {
+      "source": "vercel-labs/agent-browser",
+      "sourceType": "github",
+      "skillPath": "skills/agent-browser/SKILL.md",
+      "computedHash": "228f87d57035100d9dc6efcfc05aafd4b6e3962adacaa04b8217ab2fadb15dc8"
+    },
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "skillPath": "skills/frontend-design/SKILL.md",
+      "computedHash": "516bd2154eb843a8240e43d5b285229129853114ad7075a5e141e1c08e408c84"
+    },
+    "mcp-sentinel": {
+      "source": "c:\\Users\\luisz\\AppData\\Local\\Temp\\f6daa130-b737-4f22-997c-210f71c7fbc3_claude-mcp-sentinel-2.0.zip.bc3\\claude-mcp-sentinel-2.0",
+      "sourceType": "local",
+      "computedHash": "ddadbfb166854a54e07d3e1656cc9c7449b595f27ad0e89132da74e5f8c4b5df"
+    },
+    "using-superpowers": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/using-superpowers/SKILL.md",
+      "computedHash": "de10fd3ff46d797acc92b9df6b3ea456a5cd1d095b73c90bc921e83cce4c5bb9"
+    }
+  }
+}
