@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea'
 const emptyPull = {
   id_cuenta: '', tipo_cuenta: '', fresh_colocado: '', fecha_inicial: '',
   fecha_final: '', rechazada: '', descripcion_cuenta: '', status_marker: 'none',
-  mail_pulleado: '', email_bomb_estado: '', telegram: '', seller: '',
+  mail_pulleado: '', seller: '',
 }
 
 export default function PullEditDialog({ open, onOpenChange, item, onSave }: {
@@ -93,14 +93,6 @@ export default function PullEditDialog({ open, onOpenChange, item, onSave }: {
           <div className="space-y-1.5">
             <Label className="text-xs">Mail Pulleado</Label>
             <Input value={form.mail_pulleado} onChange={e => set('mail_pulleado', e.target.value)} className="bg-background" />
-          </div>
-          <div className="space-y-1.5">
-            <Label className="text-xs">Email Bomb Estado</Label>
-            <Input value={form.email_bomb_estado} onChange={e => set('email_bomb_estado', e.target.value)} className="bg-background" />
-          </div>
-          <div className="space-y-1.5">
-            <Label className="text-xs">Telegram</Label>
-            <Input value={form.telegram} onChange={e => set('telegram', e.target.value)} className="bg-background" />
           </div>
           <div className="col-span-2 space-y-1.5">
             <Label className="text-xs">Descripción Cuenta</Label>

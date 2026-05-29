@@ -87,11 +87,11 @@ export default function Pulls() {
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/50 hover:bg-muted/50">
-                {['','ID Cuenta','Tipo','Fresh/Colocado','Fecha Inicial','Fecha Final','Estado','Descripción','Mail Pulleado','Email Bomb','Telegram','Seller','Acciones'].map(h => <TableHead key={h} className="text-xs font-semibold">{h}</TableHead>)}
+                {['','ID Cuenta','Tipo','Fresh/Colocado','Fecha Inicial','Fecha Final','Estado','Descripción','Mail Pulleado','Seller','Acciones'].map(h => <TableHead key={h} className="text-xs font-semibold">{h}</TableHead>)}
               </TableRow>
             </TableHeader>
             <TableBody>
-              {paginated.length === 0 ? <TableRow><TableCell colSpan={13} className="text-center text-muted-foreground py-12">Sin pulls</TableCell></TableRow>
+              {paginated.length === 0 ? <TableRow><TableCell colSpan={11} className="text-center text-muted-foreground py-12">Sin pulls</TableCell></TableRow>
               : paginated.map((pull: any) => {
                 const rechazadaVal = typeof pull.rechazada === 'boolean' ? (pull.rechazada ? 'Rechazada' : '') : (pull.rechazada || '')
                 return (
@@ -105,8 +105,6 @@ export default function Pulls() {
                     <TableCell>{rechazadaVal ? <Badge className={`text-[10px] border ${rechazadaConfig[rechazadaVal] || ''}`}>{rechazadaVal}</Badge> : <span className="text-xs text-muted-foreground">—</span>}</TableCell>
                     <TableCell className="text-xs truncate max-w-[140px]">{pull.descripcion_cuenta || '—'}</TableCell>
                     <TableCell className="text-xs truncate max-w-[120px]">{pull.mail_pulleado || '—'}</TableCell>
-                    <TableCell className="text-xs">{pull.email_bomb_estado || '—'}</TableCell>
-                    <TableCell className="text-xs">{pull.telegram || '—'}</TableCell>
                     <TableCell className="text-xs">{pull.seller}</TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-1">
