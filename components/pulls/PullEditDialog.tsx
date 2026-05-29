@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea'
 
 const emptyPull = {
   id_cuenta: '', tipo_cuenta: '', fresh_colocado: '', fecha_inicial: '',
-  fecha_final: '', rechazada: '', descripcion_cuenta: '', status_marker: 'none',
+  fecha_final: '', rechazada: 'Pulleada', descripcion_cuenta: '', status_marker: 'none',
   mail_pulleado: '', seller: '',
 }
 
@@ -25,7 +25,7 @@ export default function PullEditDialog({ open, onOpenChange, item, onSave }: {
   useEffect(() => {
     if (item) {
       const rechazada = typeof item.rechazada === 'boolean' ? (item.rechazada ? 'Rechazada' : '') : (item.rechazada || '')
-      setForm({ ...emptyPull, ...item, rechazada })
+      setForm({ ...emptyPull, ...item, rechazada: rechazada || 'Pulleada' })
     } else {
       setForm(emptyPull)
     }
@@ -70,13 +70,13 @@ export default function PullEditDialog({ open, onOpenChange, item, onSave }: {
             <Input type="date" value={form.fecha_final} onChange={e => set('fecha_final', e.target.value)} className="bg-background" />
           </div>
           <div className="space-y-1.5">
-            <Label className="text-xs">Estado Rechazo</Label>
-            <Select value={form.rechazada || 'ninguno'} onValueChange={v => set('rechazada', (v ?? '') === 'ninguno' ? '' : (v ?? ''))}>
-              <SelectTrigger className="bg-background"><SelectValue placeholder="Ninguno" /></SelectTrigger>
+            <Label className="text-xs">Estado</Label>
+            <Select value={form.rechazada || 'Pulleada'} onValueChange={v => set('rechazada', v ?? 'Pulleada')}>
+              <SelectTrigger className="bg-background"><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="ninguno">Ninguno</SelectItem>
+                <SelectItem value="Pulleada">Pulleada</SelectItem>
+                <SelectItem value="Apelación">Apelación</SelectItem>
                 <SelectItem value="Rechazada">Rechazada</SelectItem>
-                <SelectItem value="Apelando">Apelando</SelectItem>
               </SelectContent>
             </Select>
           </div>

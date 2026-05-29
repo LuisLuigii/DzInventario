@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     fecha_inicial: fecha_inicial || new Date().toISOString().split('T')[0],
     fecha_final: fecha_final || null,
     status_marker: 'none',
-    rechazada: '',
+    rechazada: 'Pulleada',
   })
 
   if (error) {

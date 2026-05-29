@@ -18,9 +18,10 @@ import { toast } from 'sonner'
 import { format } from 'date-fns'
 
 const PAGE_SIZE = 100
-const rechazadaConfig: Record<string, string> = {
+const estadoConfig: Record<string, string> = {
+  Pulleada:  'bg-primary/10 text-primary border-primary/30',
+  Apelación: 'bg-warning/10 text-warning border-warning/30',
   Rechazada: 'bg-destructive/10 text-destructive border-destructive/30',
-  Apelando: 'bg-warning/10 text-warning border-warning/30',
 }
 
 export default function Pulls() {
@@ -93,7 +94,7 @@ export default function Pulls() {
             <TableBody>
               {paginated.length === 0 ? <TableRow><TableCell colSpan={11} className="text-center text-muted-foreground py-12">Sin pulls</TableCell></TableRow>
               : paginated.map((pull: any) => {
-                const rechazadaVal = typeof pull.rechazada === 'boolean' ? (pull.rechazada ? 'Rechazada' : '') : (pull.rechazada || '')
+                const estado = typeof pull.rechazada === 'boolean' ? (pull.rechazada ? 'Rechazada' : 'Pulleada') : (pull.rechazada || 'Pulleada')
                 return (
                   <TableRow key={pull.id} className="hover:bg-muted/30">
                     <TableCell className="w-6 px-2">{pull.status_marker === 'green' && <span className="inline-block w-2.5 h-2.5 rounded-full bg-success" />}</TableCell>
@@ -102,7 +103,7 @@ export default function Pulls() {
                     <TableCell className="text-xs">{pull.fresh_colocado || '—'}</TableCell>
                     <TableCell className="text-xs">{pull.fecha_inicial ? format(new Date(pull.fecha_inicial), 'dd/MM/yyyy') : '—'}</TableCell>
                     <TableCell className="text-xs">{pull.fecha_final ? format(new Date(pull.fecha_final), 'dd/MM/yyyy') : '—'}</TableCell>
-                    <TableCell>{rechazadaVal ? <Badge className={`text-[10px] border ${rechazadaConfig[rechazadaVal] || ''}`}>{rechazadaVal}</Badge> : <span className="text-xs text-muted-foreground">—</span>}</TableCell>
+                    <TableCell><Badge className={`text-[10px] border ${estadoConfig[estado] || estadoConfig.Pulleada}`}>{estado}</Badge></TableCell>
                     <TableCell className="text-xs truncate max-w-[140px]">{pull.descripcion_cuenta || '—'}</TableCell>
                     <TableCell className="text-xs truncate max-w-[120px]">{pull.mail_pulleado || '—'}</TableCell>
                     <TableCell className="text-xs">{pull.seller}</TableCell>
