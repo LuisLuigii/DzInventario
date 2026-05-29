@@ -378,17 +378,21 @@ def borrar_fresh_usado(fresh_correo):
         gui_log(f"Fresh borrado: {fresh_correo}", "muted")
     except Exception as e:
         gui_log(f"Error borrando fresh: {e}", "error")
-def enviar_a_inventario(account_id, mail_pulleado, fresh_correo):
+def enviar_a_inventario(account_id, mail_pulleado, fresh_correo, fresh_pass):
     if not INVENTARIO_API_KEY:
         return
     try:
+        fecha_inicial = datetime.now()
+        fecha_final   = fecha_inicial + timedelta(days=2)
+        fresh_colocado = f"{fresh_correo}:{fresh_pass}" if fresh_correo and fresh_pass else (fresh_correo or "")
         payload = {
             "id_cuenta": account_id,
             "tipo_cuenta": TIPO_CUENTA,
-            "fresh_colocado": fresh_correo or "",
+            "fresh_colocado": fresh_colocado,
             "mail_pulleado": mail_pulleado or "",
             "seller": SELLER_NAME,
-            "fecha_inicial": datetime.now().strftime("%Y-%m-%d"),
+            "fecha_inicial": fecha_inicial.strftime("%Y-%m-%d"),
+            "fecha_final":   fecha_final.strftime("%Y-%m-%d"),
         }
         headers = {
             "Authorization": f"Bearer {INVENTARIO_API_KEY}",
@@ -1110,7 +1114,7 @@ def abrir_sunbrowser_para_correo(correo, ciudad, region, pais, zip_code, ip, dat
     marcar_recovery_completado(correo)
     if fresh:
         guardar_linea_con_fresh(linea_completa, fresh['correo'], fresh['password'])
-    enviar_a_inventario(datos_correo['account_id'], correo, fresh['correo'] if fresh else "")
+    enviar_a_inventario(datos_correo['account_id'], correo, fresh['correo'] if fresh else "", fresh['password'] if fresh else "")
     gui_log("✅ Recovery completado y guardado", "success")
     gui_status("Guardado ✓", "#3dd68c")
     eliminar_perfil_adspower(perfil_id)
@@ -1494,7 +1498,7 @@ def abrir_sunbrowser_para_correo(correo, ciudad, region, pais, zip_code, ip, dat
     marcar_recovery_completado(correo)
     if fresh:
         guardar_linea_con_fresh(linea_completa, fresh['correo'], fresh['password'])
-    enviar_a_inventario(datos_correo['account_id'], correo, fresh['correo'] if fresh else "")
+    enviar_a_inventario(datos_correo['account_id'], correo, fresh['correo'] if fresh else "", fresh['password'] if fresh else "")
     gui_log("✅ Recovery completado y guardado", "success")
     gui_status("Guardado ✓", "#3dd68c")
     eliminar_perfil_adspower(perfil_id)
